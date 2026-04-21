@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard — OG WEB SOLUTIONS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080808; --surface: #111111; --surface2: #161616;
+      --gold: #d4af37; --gold2: #f0c040;
+      --gold-dim: rgba(212,175,55,0.12); --gold-border: rgba(212,175,55,0.25);
+      --text: #f5f0e8; --muted: #888880; --border: #1f1f1f;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* LAYOUT */
+    .app { display: flex; flex: 1; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 220px; flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--gold-border);
+      padding: 1.5rem 0;
+      position: sticky; top: 64px;
+      height: calc(100vh - 64px);
+      overflow-y: auto;
+    }
+    .sidebar-label { font-size: 0.7rem; font-weight: 700; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; padding: 0.5rem 1.5rem; margin-top: 1rem; }
+    .sidebar a {
+      display: flex; align-items: center; gap: 0.7rem;
+      padding: 0.7rem 1.5rem; color: var(--muted);
+      text-decoration: none; font-size: 0.88rem; font-weight: 500;
+      transition: color 0.2s, background 0.2s; border-left: 2px solid transparent;
+    }
+    .sidebar a:hover { color: var(--text); background: var(--gold-dim); }
+    .sidebar a.active { color: var(--gold); border-left-color: var(--gold); background: var(--gold-dim); }
+    .sidebar a i { width: 16px; text-align: center; }
+
+    /* CONTENT */
+    .content { flex: 1; overflow-y: auto; }
+
+    /* TAB PANELS */
+    .tab-panel { display: none; padding: 2rem; max-width: 1100px; }
+    .tab-panel.active { display: block; }
+
+    /* EDIT SECTIONS */
+    .edit-section {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.8rem; margin-bottom: 1.5rem;
+    }
+    .edit-section h3 {
+      font-family: 'Playfair Display', serif; font-size: 1.1rem;
+      margin-bottom: 1.2rem; color: var(--gold);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .edit-grid.single { grid-template-columns: 1fr; }
+    .fg2 { display: flex; flex-direction: column; gap: 0.4rem; }
+    .fg2 label { font-size: 0.75rem; font-weight: 600; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; }
+    .fg2 input, .fg2 textarea, .fg2 select {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.7rem 0.9rem;
+      color: var(--text); font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    .fg2 input:focus, .fg2 textarea:focus { border-color: var(--gold); }
+    .fg2 textarea { resize: vertical; min-height: 80px; }
+    .btn-save {
+      background: linear-gradient(135deg, var(--gold), #c8960c);
+      color: #000; border: none; border-radius: 50px;
+      padding: 0.65rem 1.8rem; font-weight: 700; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 0.88rem;
+      transition: opacity 0.2s, transform 0.2s;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      margin-top: 1rem;
+    }
+    .btn-save:hover { opacity: 0.88; transform: translateY(-1px); }
+    .save-msg { color: #2ed573; font-size: 0.82rem; margin-top: 0.5rem; min-height: 1rem; }
+    .item-row {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1rem; margin-bottom: 0.8rem;
+    }
+    .item-row-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
+    .item-row-head span { font-size: 0.82rem; font-weight: 700; color: var(--gold); }
+    .btn-remove {
+      background: none; border: 1px solid #e74c3c33; color: #e74c3c;
+      padding: 0.25rem 0.6rem; border-radius: 6px; cursor: pointer;
+      font-size: 0.75rem; font-family: 'Inter', sans-serif;
+    }
+    .btn-add {
+      background: var(--gold-dim); border: 1px solid var(--gold-border);
+      color: var(--gold); padding: 0.5rem 1.2rem; border-radius: 8px;
+      cursor: pointer; font-size: 0.82rem; font-family: 'Inter', sans-serif;
+      font-weight: 600; display: inline-flex; align-items: center; gap: 0.4rem;
+      transition: background 0.2s;
+    }
+    .btn-add:hover { background: rgba(212,175,55,0.2); }
+    .preview-btn {
+      background: none; border: 1px solid var(--gold-border); color: var(--gold);
+      padding: 0.4rem 1rem; border-radius: 50px; cursor: pointer;
+      font-size: 0.82rem; font-family: 'Inter', sans-serif;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      text-decoration: none; transition: background 0.2s;
+    }
+    .preview-btn:hover { background: var(--gold-dim); }
+
+    /* TOPBAR */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--gold-border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .topbar-logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; }
+    .topbar-logo span { color: var(--gold); }
+    .topbar-right { display: flex; align-items: center; gap: 1rem; }
+    .admin-badge {
+      background: var(--gold-dim); border: 1px solid var(--gold-border);
+      color: var(--gold); font-size: 0.78rem; font-weight: 600;
+      padding: 0.3rem 0.9rem; border-radius: 50px;
+    }
+    .btn-logout {
+      background: none; border: 1px solid var(--border);
+      color: var(--muted); padding: 0.4rem 1rem;
+      border-radius: 50px; cursor: pointer; font-size: 0.82rem;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s, color 0.2s;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .btn-logout:hover { border-color: #e74c3c; color: #e74c3c; }
+
+    /* MAIN */
+    .main { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+
+    /* STATS ROW */
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .stat-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+      transition: border-color 0.2s;
+    }
+    .stat-box:hover { border-color: var(--gold-border); }
+    .stat-box-icon {
+      width: 46px; height: 46px;
+      background: var(--gold-dim); border: 1px solid var(--gold-border);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; color: var(--gold); flex-shrink: 0;
+    }
+    .stat-box h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--gold); }
+    .stat-box p { color: var(--muted); font-size: 0.8rem; margin-top: 0.1rem; }
+
+    /* TOOLBAR */
+    .toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;
+    }
+    .toolbar h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 900; }
+    .toolbar-right { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+    .filter-select, .search-input {
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); border-radius: 8px; padding: 0.5rem 0.9rem;
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    .filter-select:focus, .search-input:focus { border-color: var(--gold); }
+    .btn-clear {
+      background: none; border: 1px solid #e74c3c33; color: #e74c3c;
+      padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;
+      font-size: 0.82rem; font-family: 'Inter', sans-serif;
+      transition: background 0.2s;
+    }
+    .btn-clear:hover { background: rgba(231,76,60,0.1); }
+
+    /* TABLE */
+    .table-wrap {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: var(--surface2); border-bottom: 1px solid var(--gold-border); }
+    thead th {
+      padding: 1rem 1.2rem; text-align: left;
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--gold); letter-spacing: 1px; text-transform: uppercase;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(212,175,55,0.03); }
+    tbody td { padding: 1rem 1.2rem; font-size: 0.88rem; color: var(--text); vertical-align: top; }
+    .td-muted { color: var(--muted); font-size: 0.82rem; }
+    .plan-tag {
+      background: var(--gold-dim); color: var(--gold);
+      font-size: 0.72rem; font-weight: 700;
+      padding: 0.2rem 0.7rem; border-radius: 50px;
+      border: 1px solid var(--gold-border); white-space: nowrap;
+    }
+    .status-new {
+      background: rgba(46,213,115,0.12); color: #2ed573;
+      font-size: 0.72rem; font-weight: 700;
+      padding: 0.2rem 0.7rem; border-radius: 50px;
+      border: 1px solid rgba(46,213,115,0.25);
+    }
+    .status-read {
+      background: rgba(136,136,128,0.12); color: var(--muted);
+      font-size: 0.72rem; font-weight: 700;
+      padding: 0.2rem 0.7rem; border-radius: 50px;
+      border: 1px solid var(--border);
+    }
+    .btn-mark {
+      background: none; border: 1px solid var(--border);
+      color: var(--muted); padding: 0.3rem 0.7rem;
+      border-radius: 6px; cursor: pointer; font-size: 0.75rem;
+      font-family: 'Inter', sans-serif; transition: all 0.2s;
+    }
+    .btn-mark:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-delete {
+      background: none; border: 1px solid transparent;
+      color: #e74c3c55; padding: 0.3rem 0.7rem;
+      border-radius: 6px; cursor: pointer; font-size: 0.75rem;
+      font-family: 'Inter', sans-serif; transition: all 0.2s;
+    }
+    .btn-delete:hover { border-color: #e74c3c; color: #e74c3c; }
+    .empty-state {
+      text-align: center; padding: 4rem 2rem; color: var(--muted);
+    }
+    .empty-state i { font-size: 2.5rem; color: var(--gold-border); margin-bottom: 1rem; display: block; }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7); z-index: 500;
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--surface); border: 1px solid var(--gold-border);
+      border-radius: 20px; padding: 2rem; max-width: 500px; width: 90%;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    }
+    .modal h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 1.5rem; }
+    .modal-row { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 1rem; }
+    .modal-row label { font-size: 0.75rem; color: var(--gold); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .modal-row p { font-size: 0.92rem; color: var(--text); line-height: 1.6; }
+    .modal-close {
+      background: linear-gradient(135deg, var(--gold), #c8960c);
+      color: #000; border: none; border-radius: 50px;
+      padding: 0.7rem 2rem; font-weight: 700; cursor: pointer;
+      font-family: 'Inter', sans-serif; margin-top: 0.5rem;
+      transition: opacity 0.2s;
+    }
+    .modal-close:hover { opacity: 0.85; }
+
+    @media (max-width: 768px) {
+      .main { padding: 1rem; }
+      thead th:nth-child(4), tbody td:nth-child(4) { display: none; }
+    }
+
+    /* LAYOUT WITH SIDEBAR */
+    .layout { display: flex; min-height: calc(100vh - 65px); }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 220px; flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--gold-border);
+      padding: 1.5rem 0;
+      position: sticky; top: 65px;
+      height: calc(100vh - 65px);
+      overflow-y: auto;
+    }
+    .sidebar-label {
+      font-size: 0.68rem; font-weight: 700; color: var(--muted);
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 0 1.2rem; margin: 1.2rem 0 0.5rem;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 0.7rem;
+      padding: 0.7rem 1.2rem; cursor: pointer;
+      font-size: 0.88rem; font-weight: 500; color: var(--muted);
+      transition: all 0.2s; border-left: 3px solid transparent;
+    }
+    .nav-item:hover { color: var(--text); background: var(--gold-dim); }
+    .nav-item.active { color: var(--gold); border-left-color: var(--gold); background: var(--gold-dim); }
+    .nav-item i { width: 16px; text-align: center; }
+
+    /* CONTENT AREA */
+    .content { flex: 1; padding: 2rem; overflow-y: auto; }
+
+    /* TABS */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* EDIT SECTIONS */
+    .edit-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.8rem; margin-bottom: 1.5rem;
+    }
+    .edit-card h3 {
+      font-family: 'Playfair Display', serif; font-size: 1.1rem;
+      margin-bottom: 1.2rem; color: var(--gold);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .edit-grid.single { grid-template-columns: 1fr; }
+    .ef { display: flex; flex-direction: column; gap: 0.4rem; }
+    .ef label { font-size: 0.75rem; font-weight: 600; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; }
+    .ef input, .ef textarea, .ef select {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.7rem 0.9rem;
+      color: var(--text); font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    .ef input:focus, .ef textarea:focus, .ef select:focus { border-color: var(--gold); }
+    .ef textarea { resize: vertical; min-height: 80px; }
+    .btn-save {
+      background: linear-gradient(135deg, var(--gold), #c8960c);
+      color: #000; border: none; border-radius: 50px;
+      padding: 0.65rem 1.8rem; font-weight: 700; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 0.88rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 15px rgba(212,175,55,0.3);
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      margin-top: 1rem;
+    }
+    .btn-save:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(212,175,55,0.4); }
+    .save-msg { color: #2ed573; font-size: 0.82rem; margin-top: 0.5rem; min-height: 1rem; }
+    .plan-edit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .plan-edit-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.2rem;
+    }
+    .plan-edit-card h4 { color: var(--gold); font-size: 0.9rem; margin-bottom: 0.8rem; }
+    .view-site-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--gold-dim); border: 1px solid var(--gold-border);
+      color: var(--gold); padding: 0.5rem 1.2rem;
+      border-radius: 50px; text-decoration: none;
+      font-size: 0.85rem; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .view-site-btn:hover { background: rgba(212,175,55,0.2); }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-logo">OG WEB SOLUTIONS<span>.</span> Admin</div>
+    <div class="topbar-right">
+      <a href="index.html" class="preview-btn" target="_blank"><i class="fa-solid fa-eye"></i> View Site</a>
+      <span class="admin-badge"><i class="fa-solid fa-shield-halved"></i> Admin</span>
+      <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+  </div>
+
+  <div class="app">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <p class="sidebar-label">Dashboard</p>
+    <a href="#" class="active" onclick="showTab('enquiries',this)"><i class="fa-solid fa-inbox"></i> Enquiries</a>
+    <p class="sidebar-label">Website</p>
+    <a href="#" onclick="showTab('hero',this)"><i class="fa-solid fa-house"></i> Hero Section</a>
+    <a href="#" onclick="showTab('services',this)"><i class="fa-solid fa-laptop-code"></i> Services</a>
+    <a href="#" onclick="showTab('pricing',this)"><i class="fa-solid fa-tags"></i> Pricing Plans</a>
+    <a href="#" onclick="showTab('portfolio',this)"><i class="fa-solid fa-briefcase"></i> Portfolio</a>
+    <a href="#" onclick="showTab('testimonials',this)"><i class="fa-solid fa-star"></i> Testimonials</a>
+    <a href="#" onclick="showTab('contact',this)"><i class="fa-solid fa-envelope"></i> Contact Info</a>
+    <a href="#" onclick="showTab('footer',this)"><i class="fa-solid fa-shoe-prints"></i> Footer</a>
+    <p class="sidebar-label">Settings</p>
+    <a href="#" onclick="showTab('settings',this)"><i class="fa-solid fa-gear"></i> Site Settings</a>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+  <!-- MAIN -->
+  <div class="tab-panel active" id="tab-enquiries">
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-box-icon"><i class="fa-solid fa-inbox"></i></div>
+        <div><h3 id="totalCount">0</h3><p>Total Enquiries</p></div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-icon"><i class="fa-solid fa-bell"></i></div>
+        <div><h3 id="newCount">0</h3><p>New / Unread</p></div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-icon"><i class="fa-solid fa-check-double"></i></div>
+        <div><h3 id="readCount">0</h3><p>Read</p></div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-icon"><i class="fa-solid fa-crown"></i></div>
+        <div><h3 id="topPlan">—</h3><p>Top Package</p></div>
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <h2>All Enquiries</h2>
+      <div class="toolbar-right">
+        <input class="search-input" id="searchInput" placeholder="🔍 Search name or email..." oninput="renderTable()"/>
+        <select class="filter-select" id="filterPlan" onchange="renderTable()">
+          <option value="">All Plans</option>
+          <option>Basic Website — ₹4,999</option>
+          <option>Business Website — ₹9,999</option>
+          <option>Premium Website — ₹19,999</option>
+          <option>E-Commerce Website — ₹34,999</option>
+          <option>Custom Web App — ₹59,999+</option>
+        </select>
+        <select class="filter-select" id="filterStatus" onchange="renderTable()">
+          <option value="">All Status</option>
+          <option value="new">New</option>
+          <option value="read">Read</option>
+        </select>
+        <button class="btn-clear" onclick="clearAll()"><i class="fa-solid fa-trash"></i> Clear All</button>
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Plan</th>
+            <th>Message</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="enquiryTable"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState" style="display:none">
+        <i class="fa-solid fa-inbox"></i>
+        <p>No enquiries yet. They'll appear here when someone submits the contact form.</p>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- end tab-enquiries -->
+
+  <!-- HERO TAB -->
+  <div class="tab-panel" id="tab-hero">
+    <div class="edit-section">
+      <h3><i class="fa-solid fa-house"></i> Hero Section</h3>
+      <div class="edit-grid">
+        <div class="fg2"><label>Main Heading Line 1</label><input id="h-line1" placeholder="We Build Websites"/></div>
+        <div class="fg2"><label>Main Heading Line 2 (Gold)</label><input id="h-line2" placeholder="That Convert."/></div>
+        <div class="fg2"><label>Subtext</label><textarea id="h-sub"></textarea></div>
+        <div class="fg2"><label>Badge Text</label><input id="h-badge" placeholder="Available for Projects"/></div>
+        <div class="fg2"><label>Button 1 Text</label><input id="h-btn1" placeholder="See Our Plans"/></div>
+        <div class="fg2"><label>Button 2 Text</label><input id="h-btn2" placeholder="View Work"/></div>
+        <div class="fg2"><label>Trust Text</label><input id="h-trust" placeholder="Trusted by 30+ clients across India"/></div>
+      </div>
+      <button class="btn-save" onclick="saveHero()"><i class="fa-solid fa-floppy-disk"></i> Save Hero</button>
+      <p class="save-msg" id="hero-msg"></p>
+    </div>
+  </div>
+
+  <!-- SERVICES TAB -->
+  <div class="tab-panel" id="tab-services">
+    <div class="edit-section">
+      <h3><i class="fa-solid fa-laptop-code"></i> Services</h3>
+      <div id="services-list"></div>
+      <button class="btn-add" onclick="addService()"><i class="fa-solid fa-plus"></i> Add Service</button>
+      <button class="btn-save" onclick="saveServices()"><i class="fa-solid fa-floppy-disk"></i> Save Services</button>
+      <p class="save-msg" id="services-msg"></p>
+    </div>
+  </div>
+
+  <!-- PRICING TAB -->
+  <div class="tab-panel" id="tab-pricing">
+    <div class="edit-section">
+      <h3><i class="fa-solid fa-tags"></i> Pricing Plans</h3>
+      <div id="pricing-list"></div>
+      <button class="btn-add" onclick="addPlan()"><i class="fa-solid fa-plus"></i> Add Plan</button>
+      <button class="btn-save" onclick="savePricing()"><i class="fa-solid fa-floppy-disk"></i> Save Pricing</button>
+      <p class="save-msg" id="pricing-msg"></p>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO TAB -->
+  <div class="tab-panel" id="tab-portfolio">
+    <div class="edit-section">
+      <h3><i class="fa-solid fa-briefcase"></i> Portfolio Projects</h3>
+      <div id="portfolio-list"></div>
+      <button class="btn-add" onclick="addProject()"><i class="fa-solid fa-plus"></i> Add Project</button>
+      <button class="btn-save" onclick="savePortfolio()"><i class="fa-solid fa-floppy-disk"></i> Save Portfolio</button>
+      <p class="save-msg" id="portfolio-msg"></p>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS TAB -->
+  <div class="tab-panel" id="tab-testimonials">
+    <div class="edit-section">
+      <h3><i class="fa-solid fa-star"></i> Testimonials</h3>
+      <div id="testi-list"></div>
+      <button class="btn-add" onclick="addTesti()"><i class="fa-solid fa-plus"></i> Add Testimonial</button>
+      <button class="btn-save" onclick="saveTestis()"><i class="fa-solid fa-floppy-disk"></i> Save Testimonials</button>
+      <p class="save-msg" id="testi-msg"></p>
+    </div>
+  </div>
+
+  <!-- CONTACT TAB -->
+  <div class="tab-panel" id="tab-contact">
+    <div class="edit-section">
+      <h3><i class="fa-solid fa-envelope"></i> Contact Info</h3>
+      <div class="edit-grid">
+        <div class="fg2"><label>Email</label><input id="c-email" placeholder="ogwebdesigner@gmail.com"/></div>
+        <div class="fg2"><label>WhatsApp Number</label><input id="c-wa" placeholder="+91 98765 43210"/></div>
+        <div class="fg2"><label>Location</label><input id="c-loc" placeholder="India — Remote Worldwide"/></div>
+        <div class="fg2"><label>Section Heading</label><input id="c-head" placeholder="Let's Build Something Great Together"/></div>
+        <div class="fg2"><label>Section Subtext</label><textarea id="c-sub"></textarea></div>
+      </div>
+      <button class="btn-save" onclick="saveContact()"><i class="fa-solid fa-floppy-disk"></i> Save Contact</button>
+      <p class="save-msg" id="contact-msg"></p>
+    </div>
+  </div>
+
+  <!-- FOOTER TAB -->
+  <div class="tab-panel" id="tab-footer">
+    <div class="edit-section">
+      <h3><i class="fa-solid fa-shoe-prints"></i> Footer</h3>
+      <div class="edit-grid">
+        <div class="fg2"><label>Footer Tagline</label><input id="f-tag" placeholder="Premium web design & development..."/></div>
+        <div class="fg2"><label>Copyright Text</label><input id="f-copy" placeholder="© 2025 OG Web Designer. All rights reserved."/></div>
+        <div class="fg2"><label>Instagram URL</label><input id="f-ig" placeholder="https://instagram.com/..."/></div>
+        <div class="fg2"><label>Twitter/X URL</label><input id="f-tw" placeholder="https://twitter.com/..."/></div>
+        <div class="fg2"><label>LinkedIn URL</label><input id="f-li" placeholder="https://linkedin.com/..."/></div>
+        <div class="fg2"><label>WhatsApp URL</label><input id="f-wa" placeholder="https://wa.me/91..."/></div>
+      </div>
+      <button class="btn-save" onclick="saveFooter()"><i class="fa-solid fa-floppy-disk"></i> Save Footer</button>
+      <p class="save-msg" id="footer-msg"></p>
+    </div>
+  </div>
+
+  <!-- SETTINGS TAB -->
+  <div class="tab-panel" id="tab-settings">
+    <div class="edit-section">
+      <h3><i class="fa-solid fa-gear"></i> Site Settings</h3>
+      <div class="edit-grid">
+        <div class="fg2"><label>Site Title</label><input id="s-title" placeholder="OG Web Designer — Premium Web Solutions"/></div>
+        <div class="fg2"><label>Nav Logo Text</label><input id="s-logo" placeholder="OG"/></div>
+        <div class="fg2"><label>WhatsApp Float Number</label><input id="s-wanum" placeholder="919876543210"/></div>
+        <div class="fg2"><label>Change Admin Password</label><input type="password" id="s-pass" placeholder="New password"/></div>
+      </div>
+      <button class="btn-save" onclick="saveSettings()"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
+      <p class="save-msg" id="settings-msg"></p>
+    </div>
+    <div class="edit-section">
+      <h3><i class="fa-solid fa-triangle-exclamation" style="color:#e74c3c"></i> Danger Zone</h3>
+      <button class="btn-clear" onclick="resetAll()"><i class="fa-solid fa-rotate-left"></i> Reset All Website Content</button>
+    </div>
+  </div>
+
+  </div><!-- end content -->
+  </div><!-- end app -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h3><i class="fa-solid fa-envelope-open" style="color:var(--gold);margin-right:0.5rem"></i>Enquiry Details</h3>
+      <div class="modal-row"><label>Name</label><p id="mName"></p></div>
+      <div class="modal-row"><label>Email</label><p id="mEmail"></p></div>
+      <div class="modal-row"><label>Plan</label><p id="mPlan"></p></div>
+      <div class="modal-row"><label>Message</label><p id="mMsg"></p></div>
+      <div class="modal-row"><label>Date</label><p id="mDate"></p></div>
+      <button class="modal-close" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Auth check
+    if (!sessionStorage.getItem('ogAdmin')) window.location.href = 'login.html';
+
+    function logout() {
+      sessionStorage.removeItem('ogAdmin');
+      window.location.href = 'login.html';
+    }
+
+    function getEnquiries() {
+      return JSON.parse(localStorage.getItem('ogEnquiries') || '[]');
+    }
+    function saveEnquiries(data) {
+      localStorage.setItem('ogEnquiries', JSON.stringify(data));
+    }
+
+    function updateStats() {
+      const data = getEnquiries();
+      document.getElementById('totalCount').textContent = data.length;
+      document.getElementById('newCount').textContent = data.filter(e => e.status === 'new').length;
+      document.getElementById('readCount').textContent = data.filter(e => e.status === 'read').length;
+      if (data.length) {
+        const freq = {};
+        data.forEach(e => freq[e.plan] = (freq[e.plan] || 0) + 1);
+        const top = Object.entries(freq).sort((a,b) => b[1]-a[1])[0][0];
+        document.getElementById('topPlan').textContent = top.split('—')[0].trim();
+      }
+    }
+
+    function renderTable() {
+      const data = getEnquiries();
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const planFilter = document.getElementById('filterPlan').value;
+      const statusFilter = document.getElementById('filterStatus').value;
+
+      const filtered = data.filter((e, i) => {
+        e._idx = i;
+        const matchSearch = e.name.toLowerCase().includes(search) || e.email.toLowerCase().includes(search);
+        const matchPlan = !planFilter || e.plan === planFilter;
+        const matchStatus = !statusFilter || e.status === statusFilter;
+        return matchSearch && matchPlan && matchStatus;
+      });
+
+      const tbody = document.getElementById('enquiryTable');
+      const empty = document.getElementById('emptyState');
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        empty.style.display = 'block';
+      } else {
+        empty.style.display = 'none';
+        tbody.innerHTML = filtered.map((e, i) => `
+          <tr>
+            <td class="td-muted">${i + 1}</td>
+            <td><strong>${e.name}</strong></td>
+            <td class="td-muted">${e.email}</td>
+            <td><span class="plan-tag">${e.plan.split('—')[0].trim()}</span></td>
+            <td class="td-muted" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.message}</td>
+            <td class="td-muted">${e.date}</td>
+            <td><span class="status-${e.status}">${e.status === 'new' ? '🟢 New' : '✓ Read'}</span></td>
+            <td style="display:flex;gap:0.4rem;flex-wrap:wrap">
+              <button class="btn-mark" onclick="viewEnquiry(${e._idx})"><i class="fa-solid fa-eye"></i></button>
+              <button class="btn-mark" onclick="markRead(${e._idx})">${e.status === 'new' ? 'Mark Read' : 'Mark New'}</button>
+              <button class="btn-delete" onclick="deleteEnquiry(${e._idx})"><i class="fa-solid fa-trash"></i></button>
+            </td>
+          </tr>
+        `).join('');
+      }
+      updateStats();
+    }
+
+    function markRead(idx) {
+      const data = getEnquiries();
+      data[idx].status = data[idx].status === 'new' ? 'read' : 'new';
+      saveEnquiries(data);
+      renderTable();
+    }
+
+    function deleteEnquiry(idx) {
+      if (!confirm('Delete this enquiry?')) return;
+      const data = getEnquiries();
+      data.splice(idx, 1);
+      saveEnquiries(data);
+      renderTable();
+    }
+
+    function clearAll() {
+      if (!confirm('Delete ALL enquiries? This cannot be undone.')) return;
+      saveEnquiries([]);
+      renderTable();
+    }
+
+    function viewEnquiry(idx) {
+      const data = getEnquiries();
+      const e = data[idx];
+      document.getElementById('mName').textContent = e.name;
+      document.getElementById('mEmail').textContent = e.email;
+      document.getElementById('mPlan').textContent = e.plan;
+      document.getElementById('mMsg').textContent = e.message;
+      document.getElementById('mDate').textContent = e.date;
+      document.getElementById('modalOverlay').classList.add('open');
+      if (e.status === 'new') { e.status = 'read'; saveEnquiries(data); renderTable(); }
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+    }
+
+    // Add sample data if empty
+    if (!localStorage.getItem('ogEnquiries')) {
+      const samples = [
+        { name: 'Rahul Sharma', email: 'rahul@example.com', plan: 'Business Website — ₹9,999', message: 'I need a website for my restaurant with online reservation.', date: '2025-01-15 10:30', status: 'read' },
+        { name: 'Priya Mehta', email: 'priya@example.com', plan: 'E-Commerce Website — ₹34,999', message: 'Looking for a full fashion store with payment gateway.', date: '2025-01-18 14:22', status: 'new' },
+        { name: 'Arjun Patel', email: 'arjun@example.com', plan: 'Custom Web App — ₹59,999+', message: 'Need a gym management app with member portal and staff dashboard.', date: '2025-01-20 09:15', status: 'new' },
+      ];
+      saveEnquiries(samples);
+    }
+
+    renderTable();
+
+    // ── TAB SWITCHING ──
+    function showTab(name, el) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      el.classList.add('active');
+    }
+
+    // ── DEFAULTS ──
+    const DEF = {
+      hero: { line1:'We Build Websites', line2:'That Convert.', sub:'Premium web design & development for businesses that want to stand out, grow faster, and dominate online.', badge:'Available for Projects', btn1:'See Our Plans', btn2:'View Work', trust:'Trusted by 30+ clients across India' },
+      services: [
+        {icon:'fa-laptop-code',title:'Web Design',desc:'Pixel-perfect, responsive designs tailored to your brand identity.'},
+        {icon:'fa-mobile-screen',title:'UI/UX Design',desc:'Intuitive experiences that keep visitors engaged and converting.'},
+        {icon:'fa-rocket',title:'Landing Pages',desc:'High-converting pages built to grow your business fast.'},
+        {icon:'fa-store',title:'E-Commerce',desc:'Beautiful online stores with seamless checkout experience.'},
+        {icon:'fa-magnifying-glass-chart',title:'SEO Optimization',desc:'Get found on Google with advanced SEO built into every project.'},
+        {icon:'fa-database',title:'Web Apps',desc:'Custom apps with Firebase, admin panels, and user portals.'}
+      ],
+      pricing: [
+        {icon:'fa-seedling',name:'Basic Website',price:'₹4,999',delivery:'3–5 days',features:'1–5 Pages\nMobile Responsive\nContact Form\nBasic SEO\n1 Month Support',popular:false},
+        {icon:'fa-briefcase',name:'Business Website',price:'₹9,999',delivery:'7 days',features:'5–10 Pages\nMobile Responsive\nContact + Enquiry Form\nGoogle Maps Integration\nSocial Media Links\nBasic SEO\n3 Months Support',popular:false},
+        {icon:'fa-crown',name:'Premium Website',price:'₹19,999',delivery:'15 days',features:'10–15 Pages\nMobile Responsive\nAdmin Panel\nFirebase Database\nPayment Gateway\nAdvanced SEO\n6 Months Support',popular:true},
+        {icon:'fa-cart-shopping',name:'E-Commerce',price:'₹34,999',delivery:'20 days',features:'Full Online Store\nProduct Management\nPayment Gateway\nOrder Tracking\nAdmin Dashboard\n1 Year Support',popular:false},
+        {icon:'fa-wand-magic-sparkles',name:'Custom Web App',price:'₹59,999+',delivery:'30+ days',features:'Fully Custom Build\nMobile App Ready\nFirebase / Database\nStaff Management\nCustomer Portal\n1 Year Support',popular:false}
+      ],
+      portfolio: [
+        {icon:'fa-briefcase',title:'Business Portfolio',desc:'Corporate website with animations and CMS integration.',tag:'Branding'},
+        {icon:'fa-cart-shopping',title:'Fashion Store',desc:'E-commerce platform with custom product filters and checkout.',tag:'E-Commerce'},
+        {icon:'fa-utensils',title:'Restaurant Site',desc:'Elegant restaurant website with online reservation system.',tag:'Hospitality'},
+        {icon:'fa-dumbbell',title:'Fitness App Landing',desc:'Bold landing page for a fitness app with video background.',tag:'Landing Page'},
+        {icon:'fa-graduation-cap',title:'EdTech Platform',desc:'Online learning platform with course listings and dashboards.',tag:'Education'},
+        {icon:'fa-camera',title:'Photography Portfolio',desc:'Minimal gallery site with lightbox and contact form.',tag:'Portfolio'}
+      ],
+      testimonials: [
+        {name:'Rahul Sharma',role:'Restaurant Owner, Delhi',text:'OG Web Designer built our business website in just 5 days. The design is stunning and we\'ve already seen a 40% increase in enquiries!',featured:false},
+        {name:'Priya Mehta',role:'Fashion Store Owner, Mumbai',text:'Absolutely premium quality. They delivered our e-commerce store on time with all features working perfectly. Best investment for our brand.',featured:true},
+        {name:'Arjun Patel',role:'Fitness Studio Owner, Bangalore',text:'The custom web app they built for our gym has transformed how we manage members. The admin panel is super easy to use. Highly recommend!',featured:false}
+      ],
+      contact: {email:'ogwebdesigner@gmail.com',wa:'+91 98765 43210',loc:'India — Remote Worldwide',head:'Let\'s Build Something Great Together',sub:'Tell us about your project and we\'ll get back to you within 24 hours.'},
+      footer: {tag:'Premium web design & development for businesses that want to grow.',copy:'© 2025 OG Web Designer. All rights reserved.',ig:'#',tw:'#',li:'#',wa:'https://wa.me/919876543210'},
+      settings: {title:'OG Web Designer — Premium Web Solutions',logo:'OG',wanum:'919876543210',pass:'og@2025'}
+    };
+
+    function getData(key) { try { return JSON.parse(localStorage.getItem('ogSite_'+key)) || DEF[key]; } catch(e) { return DEF[key]; } }
+    function setData(key,val) { localStorage.setItem('ogSite_'+key, JSON.stringify(val)); }
+    function showMsg(id) { const el=document.getElementById(id); el.textContent='✅ Saved!'; setTimeout(()=>el.textContent='',3000); }
+
+    // HERO
+    function loadHero() {
+      const d=getData('hero');
+      document.getElementById('h-line1').value=d.line1;
+      document.getElementById('h-line2').value=d.line2;
+      document.getElementById('h-sub').value=d.sub;
+      document.getElementById('h-badge').value=d.badge;
+      document.getElementById('h-btn1').value=d.btn1;
+      document.getElementById('h-btn2').value=d.btn2;
+      document.getElementById('h-trust').value=d.trust;
+    }
+    function saveHero() {
+      setData('hero',{line1:document.getElementById('h-line1').value,line2:document.getElementById('h-line2').value,sub:document.getElementById('h-sub').value,badge:document.getElementById('h-badge').value,btn1:document.getElementById('h-btn1').value,btn2:document.getElementById('h-btn2').value,trust:document.getElementById('h-trust').value});
+      showMsg('hero-msg');
+    }
+
+    // SERVICES
+    function loadServices() {
+      const d=getData('services');
+      document.getElementById('services-list').innerHTML=d.map((s,i)=>`
+        <div class="item-row">
+          <div class="item-row-head"><span>Service ${i+1}</span><button class="btn-remove" onclick="removeItem('services',${i})">Remove</button></div>
+          <div class="edit-grid">
+            <div class="fg2"><label>Icon (FA class)</label><input value="${s.icon}" onchange="updateItem('services',${i},'icon',this.value)"/></div>
+            <div class="fg2"><label>Title</label><input value="${s.title}" onchange="updateItem('services',${i},'title',this.value)"/></div>
+            <div class="fg2"><label>Description</label><textarea onchange="updateItem('services',${i},'desc',this.value)">${s.desc}</textarea></div>
+          </div>
+        </div>`).join('');
+    }
+    function addService() { const d=getData('services'); d.push({icon:'fa-star',title:'New Service',desc:'Description here.'}); setData('services',d); loadServices(); }
+    function saveServices() { showMsg('services-msg'); }
+
+    // PRICING
+    function loadPricing() {
+      const d=getData('pricing');
+      document.getElementById('pricing-list').innerHTML=d.map((p,i)=>`
+        <div class="item-row">
+          <div class="item-row-head"><span>${p.name}</span><button class="btn-remove" onclick="removeItem('pricing',${i})">Remove</button></div>
+          <div class="edit-grid">
+            <div class="fg2"><label>Plan Name</label><input value="${p.name}" onchange="updateItem('pricing',${i},'name',this.value)"/></div>
+            <div class="fg2"><label>Price</label><input value="${p.price}" onchange="updateItem('pricing',${i},'price',this.value)"/></div>
+            <div class="fg2"><label>Delivery</label><input value="${p.delivery}" onchange="updateItem('pricing',${i},'delivery',this.value)"/></div>
+            <div class="fg2"><label>Popular?</label><select onchange="updateItem('pricing',${i},'popular',this.value==='true')"><option value="false" ${!p.popular?'selected':''}>No</option><option value="true" ${p.popular?'selected':''}>Yes ⭐</option></select></div>
+            <div class="fg2"><label>Features (one per line)</label><textarea rows="6" onchange="updateItem('pricing',${i},'features',this.value)">${p.features}</textarea></div>
+          </div>
+        </div>`).join('');
+    }
+    function addPlan() { const d=getData('pricing'); d.push({icon:'fa-star',name:'New Plan',price:'₹0',delivery:'7 days',features:'Feature 1\nFeature 2',popular:false}); setData('pricing',d); loadPricing(); }
+    function savePricing() { showMsg('pricing-msg'); }
+
+    // PORTFOLIO
+    function loadPortfolio() {
+      const d=getData('portfolio');
+      document.getElementById('portfolio-list').innerHTML=d.map((p,i)=>`
+        <div class="item-row">
+          <div class="item-row-head"><span>${p.title}</span><button class="btn-remove" onclick="removeItem('portfolio',${i})">Remove</button></div>
+          <div class="edit-grid">
+            <div class="fg2"><label>Title</label><input value="${p.title}" onchange="updateItem('portfolio',${i},'title',this.value)"/></div>
+            <div class="fg2"><label>Tag</label><input value="${p.tag}" onchange="updateItem('portfolio',${i},'tag',this.value)"/></div>
+            <div class="fg2"><label>Icon (FA class)</label><input value="${p.icon}" onchange="updateItem('portfolio',${i},'icon',this.value)"/></div>
+            <div class="fg2"><label>Description</label><input value="${p.desc}" onchange="updateItem('portfolio',${i},'desc',this.value)"/></div>
+          </div>
+        </div>`).join('');
+    }
+    function addProject() { const d=getData('portfolio'); d.push({icon:'fa-globe',title:'New Project',desc:'Project description.',tag:'Web'}); setData('portfolio',d); loadPortfolio(); }
+    function savePortfolio() { showMsg('portfolio-msg'); }
+
+    // TESTIMONIALS
+    function loadTestimonials() {
+      const d=getData('testimonials');
+      document.getElementById('testi-list').innerHTML=d.map((t,i)=>`
+        <div class="item-row">
+          <div class="item-row-head"><span>${t.name}</span><button class="btn-remove" onclick="removeItem('testimonials',${i})">Remove</button></div>
+          <div class="edit-grid">
+            <div class="fg2"><label>Name</label><input value="${t.name}" onchange="updateItem('testimonials',${i},'name',this.value)"/></div>
+            <div class="fg2"><label>Role</label><input value="${t.role}" onchange="updateItem('testimonials',${i},'role',this.value)"/></div>
+            <div class="fg2"><label>Featured?</label><select onchange="updateItem('testimonials',${i},'featured',this.value==='true')"><option value="false" ${!t.featured?'selected':''}>No</option><option value="true" ${t.featured?'selected':''}>Yes ⭐</option></select></div>
+            <div class="fg2"><label>Review Text</label><textarea onchange="updateItem('testimonials',${i},'text',this.value)">${t.text}</textarea></div>
+          </div>
+        </div>`).join('');
+    }
+    function addTesti() { const d=getData('testimonials'); d.push({name:'New Client',role:'Business Owner',text:'Great service!',featured:false}); setData('testimonials',d); loadTestimonials(); }
+    function saveTestis() { showMsg('testi-msg'); }
+
+    // CONTACT
+    function loadContact() {
+      const d=getData('contact');
+      document.getElementById('c-email').value=d.email;
+      document.getElementById('c-wa').value=d.wa;
+      document.getElementById('c-loc').value=d.loc;
+      document.getElementById('c-head').value=d.head;
+      document.getElementById('c-sub').value=d.sub;
+    }
+    function saveContact() {
+      setData('contact',{email:document.getElementById('c-email').value,wa:document.getElementById('c-wa').value,loc:document.getElementById('c-loc').value,head:document.getElementById('c-head').value,sub:document.getElementById('c-sub').value});
+      showMsg('contact-msg');
+    }
+
+    // FOOTER
+    function loadFooter() {
+      const d=getData('footer');
+      document.getElementById('f-tag').value=d.tag;
+      document.getElementById('f-copy').value=d.copy;
+      document.getElementById('f-ig').value=d.ig;
+      document.getElementById('f-tw').value=d.tw;
+      document.getElementById('f-li').value=d.li;
+      document.getElementById('f-wa').value=d.wa;
+    }
+    function saveFooter() {
+      setData('footer',{tag:document.getElementById('f-tag').value,copy:document.getElementById('f-copy').value,ig:document.getElementById('f-ig').value,tw:document.getElementById('f-tw').value,li:document.getElementById('f-li').value,wa:document.getElementById('f-wa').value});
+      showMsg('footer-msg');
+    }
+
+    // SETTINGS
+    function loadSettings() {
+      const d=getData('settings');
+      document.getElementById('s-title').value=d.title;
+      document.getElementById('s-logo').value=d.logo;
+      document.getElementById('s-wanum').value=d.wanum;
+    }
+    function saveSettings() {
+      const d=getData('settings');
+      const np=document.getElementById('s-pass').value;
+      setData('settings',{title:document.getElementById('s-title').value,logo:document.getElementById('s-logo').value,wanum:document.getElementById('s-wanum').value,pass:np||d.pass});
+      localStorage.setItem('ogAdminPass', np||d.pass);
+      if(np) document.getElementById('s-pass').value='';
+      showMsg('settings-msg');
+    }
+
+    // HELPERS
+    function updateItem(key,idx,field,val) { const d=getData(key); d[idx][field]=val; setData(key,d); }
+    function removeItem(key,idx) {
+      if(!confirm('Remove this item?')) return;
+      const d=getData(key); d.splice(idx,1); setData(key,d);
+      const fns={services:loadServices,pricing:loadPricing,portfolio:loadPortfolio,testimonials:loadTestimonials};
+      if(fns[key]) fns[key]();
+    }
+    function resetAll() {
+      if(!confirm('Reset ALL website content to defaults?')) return;
+      ['hero','services','pricing','portfolio','testimonials','contact','footer','settings'].forEach(k=>localStorage.removeItem('ogSite_'+k));
+      location.reload();
+    }
+
+    // INIT
+    loadHero(); loadServices(); loadPricing(); loadPortfolio(); loadTestimonials(); loadContact(); loadFooter(); loadSettings();
+    localStorage.setItem('ogAdminPass', getData('settings').pass || 'og@2025');
+  </script>
+</body>
+</html>

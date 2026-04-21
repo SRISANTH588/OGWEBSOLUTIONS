@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OG WEB SOLUTIONS — Premium Web Solutions</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- SCROLL PROGRESS -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- PARTICLES -->
+  <canvas id="particles"></canvas>
+
+  <!-- FLOATING WHATSAPP -->
+  <a href="https://wa.me/919876543210" class="whatsapp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="logo">OG WEB SOLUTIONS<span>.</span></div>
+    <ul>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="btn-nav">Hire Us <i class="fa-solid fa-arrow-right"></i></a>
+    <a href="login.html" class="btn-login-nav"><i class="fa-solid fa-lock"></i> Admin</a>
+    <button class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="close-menu" id="closeMenu"><i class="fa-solid fa-xmark"></i></button>
+    <ul>
+      <li><a href="#services" class="mob-link">Services</a></li>
+      <li><a href="#pricing" class="mob-link">Pricing</a></li>
+      <li><a href="#portfolio" class="mob-link">Portfolio</a></li>
+      <li><a href="#contact" class="mob-link">Contact</a></li>
+    </ul>
+    <a href="#contact" class="btn-nav mob-link">Get a Quote</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="badge"><span class="pulse"></span> Available for Projects</div>
+        <h1>We Build Websites<br/><span class="gold-text">That Convert.</span></h1>
+        <p class="sub">Premium web design & development for businesses that want to stand out, grow faster, and dominate online.</p>
+        <div class="hero-btns">
+          <a href="#pricing" class="btn-gold">See Our Plans <i class="fa-solid fa-arrow-right"></i></a>
+          <a href="#portfolio" class="btn-outline">View Work</a>
+        </div>
+        <div class="trust-row">
+          <div class="stars">★★★★★</div>
+          <p>Trusted by <strong>30+ clients</strong> across India</p>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="gold-ring"></div>
+        <div class="hero-card">
+          <div class="card-dots">
+            <span class="cd r"></span><span class="cd y"></span><span class="cd g"></span>
+          </div>
+          <div class="code-block">
+            <p><span class="kw">const</span> <span class="fn">website</span> = {</p>
+            <p>&nbsp;&nbsp;<span class="key">design</span>: <span class="val">"premium"</span>,</p>
+            <p>&nbsp;&nbsp;<span class="key">theme</span>: <span class="val">"gold & black"</span>,</p>
+            <p>&nbsp;&nbsp;<span class="key">seo</span>: <span class="val">"optimized"</span>,</p>
+            <p>&nbsp;&nbsp;<span class="key">delivery</span>: <span class="val">"on time"</span></p>
+            <p>}</p>
+          </div>
+        </div>
+        <div class="float-chip fc1"><i class="fa-solid fa-bolt"></i> Fast Delivery</div>
+        <div class="float-chip fc2"><i class="fa-solid fa-star"></i> 5.0 Rated</div>
+        <div class="float-chip fc3"><i class="fa-solid fa-shield-halved"></i> Secure</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-bar">
+    <div class="stat-item"><h3 class="count" data-target="50">0</h3><p>Projects Delivered</p></div>
+    <div class="stat-div"></div>
+    <div class="stat-item"><h3 class="count" data-target="30">0</h3><p>Happy Clients</p></div>
+    <div class="stat-div"></div>
+    <div class="stat-item"><h3>5.0★</h3><p>Average Rating</p></div>
+    <div class="stat-div"></div>
+    <div class="stat-item"><h3 class="count" data-target="3">0</h3><p>Years Experience</p></div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="sec-head">
+      <p class="eyebrow">— What We Do</p>
+      <h2>Services Built for <span class="gold-text">Growth</span></h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card"><div class="svc-icon"><i class="fa-solid fa-laptop-code"></i></div><h3>Web Design</h3><p>Pixel-perfect, responsive designs tailored to your brand identity.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fa-solid fa-mobile-screen"></i></div><h3>UI/UX Design</h3><p>Intuitive experiences that keep visitors engaged and converting.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fa-solid fa-rocket"></i></div><h3>Landing Pages</h3><p>High-converting pages built to grow your business fast.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fa-solid fa-store"></i></div><h3>E-Commerce</h3><p>Beautiful online stores with seamless checkout experience.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div><h3>SEO Optimization</h3><p>Get found on Google with advanced SEO built into every project.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fa-solid fa-database"></i></div><h3>Web Apps</h3><p>Custom apps with Firebase, admin panels, and user portals.</p></div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="sec-head">
+      <p class="eyebrow">— Transparent Pricing</p>
+      <h2>Choose Your <span class="gold-text">Perfect Plan</span></h2>
+      <p class="sec-sub">No hidden fees. No surprises. Just results.</p>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="pricing-grid">
+
+      <div class="plan-card">
+        <div class="plan-icon"><i class="fa-solid fa-seedling"></i></div>
+        <h3 class="plan-name">Basic Website</h3>
+        <div class="plan-price">₹4,999</div>
+        <p class="plan-delivery"><i class="fa-regular fa-clock"></i> Delivery: 3–5 days</p>
+        <ul class="plan-feats">
+          <li><i class="fa-solid fa-check"></i> 1–5 Pages</li>
+          <li><i class="fa-solid fa-check"></i> Mobile Responsive</li>
+          <li><i class="fa-solid fa-check"></i> Contact Form</li>
+          <li><i class="fa-solid fa-check"></i> Basic SEO</li>
+          <li><i class="fa-solid fa-check"></i> 1 Month Support</li>
+        </ul>
+        <a href="#contact" class="plan-btn">Get Started</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-icon"><i class="fa-solid fa-briefcase"></i></div>
+        <h3 class="plan-name">Business Website</h3>
+        <div class="plan-price">₹9,999</div>
+        <p class="plan-delivery"><i class="fa-regular fa-clock"></i> Delivery: 7 days</p>
+        <ul class="plan-feats">
+          <li><i class="fa-solid fa-check"></i> 5–10 Pages</li>
+          <li><i class="fa-solid fa-check"></i> Mobile Responsive</li>
+          <li><i class="fa-solid fa-check"></i> Contact + Enquiry Form</li>
+          <li><i class="fa-solid fa-check"></i> Google Maps Integration</li>
+          <li><i class="fa-solid fa-check"></i> Social Media Links</li>
+          <li><i class="fa-solid fa-check"></i> Basic SEO</li>
+          <li><i class="fa-solid fa-check"></i> 3 Months Support</li>
+        </ul>
+        <a href="#contact" class="plan-btn">Get Started</a>
+      </div>
+
+      <div class="plan-card popular">
+        <div class="pop-badge">⭐ Most Popular</div>
+        <div class="plan-icon"><i class="fa-solid fa-crown"></i></div>
+        <h3 class="plan-name">Premium Website</h3>
+        <div class="plan-price">₹19,999</div>
+        <p class="plan-delivery"><i class="fa-regular fa-clock"></i> Delivery: 15 days</p>
+        <ul class="plan-feats">
+          <li><i class="fa-solid fa-check"></i> 10–15 Pages</li>
+          <li><i class="fa-solid fa-check"></i> Mobile Responsive</li>
+          <li><i class="fa-solid fa-check"></i> Admin Panel</li>
+          <li><i class="fa-solid fa-check"></i> Firebase Database</li>
+          <li><i class="fa-solid fa-check"></i> Payment Gateway</li>
+          <li><i class="fa-solid fa-check"></i> Advanced SEO</li>
+          <li><i class="fa-solid fa-check"></i> 6 Months Support</li>
+        </ul>
+        <a href="#contact" class="plan-btn pop-btn">Get Started</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+        <h3 class="plan-name">E-Commerce</h3>
+        <div class="plan-price">₹34,999</div>
+        <p class="plan-delivery"><i class="fa-regular fa-clock"></i> Delivery: 20 days</p>
+        <ul class="plan-feats">
+          <li><i class="fa-solid fa-check"></i> Full Online Store</li>
+          <li><i class="fa-solid fa-check"></i> Product Management</li>
+          <li><i class="fa-solid fa-check"></i> Payment Gateway</li>
+          <li><i class="fa-solid fa-check"></i> Order Tracking</li>
+          <li><i class="fa-solid fa-check"></i> Admin Dashboard</li>
+          <li><i class="fa-solid fa-check"></i> 1 Year Support</li>
+        </ul>
+        <a href="#contact" class="plan-btn">Get Started</a>
+      </div>
+
+      <div class="plan-card custom-card">
+        <div class="plan-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+        <h3 class="plan-name">Custom Web App</h3>
+        <div class="plan-price">₹59,999<sup>+</sup></div>
+        <p class="plan-delivery"><i class="fa-regular fa-clock"></i> Delivery: 30+ days</p>
+        <ul class="plan-feats">
+          <li><i class="fa-solid fa-check"></i> Fully Custom Build</li>
+          <li><i class="fa-solid fa-check"></i> Mobile App Ready</li>
+          <li><i class="fa-solid fa-check"></i> Firebase / Database</li>
+          <li><i class="fa-solid fa-check"></i> Staff Management</li>
+          <li><i class="fa-solid fa-check"></i> Customer Portal</li>
+          <li><i class="fa-solid fa-check"></i> 1 Year Support</li>
+        </ul>
+        <a href="#contact" class="plan-btn custom-btn">Let's Talk <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section class="portfolio" id="portfolio">
+    <div class="sec-head">
+      <p class="eyebrow">— Our Work</p>
+      <h2>Recent <span class="gold-text">Projects</span></h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="port-grid">
+      <div class="p-card" style="--c:#c9a84c"><div class="p-icon"><i class="fa-solid fa-briefcase"></i></div><h3>Business Portfolio</h3><p>Corporate website with animations and CMS integration.</p><span class="pill">Branding</span></div>
+      <div class="p-card" style="--c:#d4af37"><div class="p-icon"><i class="fa-solid fa-cart-shopping"></i></div><h3>Fashion Store</h3><p>E-commerce platform with custom product filters and checkout.</p><span class="pill">E-Commerce</span></div>
+      <div class="p-card" style="--c:#b8960c"><div class="p-icon"><i class="fa-solid fa-utensils"></i></div><h3>Restaurant Site</h3><p>Elegant restaurant website with online reservation system.</p><span class="pill">Hospitality</span></div>
+      <div class="p-card" style="--c:#f0c040"><div class="p-icon"><i class="fa-solid fa-dumbbell"></i></div><h3>Fitness App Landing</h3><p>Bold landing page for a fitness app with video background.</p><span class="pill">Landing Page</span></div>
+      <div class="p-card" style="--c:#c9a84c"><div class="p-icon"><i class="fa-solid fa-graduation-cap"></i></div><h3>EdTech Platform</h3><p>Online learning platform with course listings and dashboards.</p><span class="pill">Education</span></div>
+      <div class="p-card" style="--c:#d4af37"><div class="p-icon"><i class="fa-solid fa-camera"></i></div><h3>Photography Portfolio</h3><p>Minimal gallery site with lightbox and contact form.</p><span class="pill">Portfolio</span></div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="sec-head">
+      <p class="eyebrow">— Client Reviews</p>
+      <h2>What Our <span class="gold-text">Clients Say</span></h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p>"OG Web Designer built our business website in just 5 days. The design is stunning and we've already seen a 40% increase in enquiries!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar">R</div>
+          <div><strong>Rahul Sharma</strong><span>Restaurant Owner, Delhi</span></div>
+        </div>
+      </div>
+      <div class="testi-card featured-testi">
+        <div class="testi-stars">★★★★★</div>
+        <p>"Absolutely premium quality. They delivered our e-commerce store on time with all features working perfectly. Best investment for our brand."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">P</div>
+          <div><strong>Priya Mehta</strong><span>Fashion Store Owner, Mumbai</span></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p>"The custom web app they built for our gym has transformed how we manage members. The admin panel is super easy to use. Highly recommend!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar">A</div>
+          <div><strong>Arjun Patel</strong><span>Fitness Studio Owner, Bangalore</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="why-us">
+    <div class="sec-head">
+      <p class="eyebrow">— Why Choose Us</p>
+      <h2>The OG <span class="gold-text">Difference</span></h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="why-grid">
+      <div class="why-card"><i class="fa-solid fa-bolt"></i><h3>Lightning Fast</h3><p>We deliver on time, every time. No delays, no excuses.</p></div>
+      <div class="why-card"><i class="fa-solid fa-palette"></i><h3>Premium Design</h3><p>Every pixel is crafted with purpose. Your brand deserves the best.</p></div>
+      <div class="why-card"><i class="fa-solid fa-headset"></i><h3>Dedicated Support</h3><p>We're with you after launch. Real support from real people.</p></div>
+      <div class="why-card"><i class="fa-solid fa-indian-rupee-sign"></i><h3>Affordable Pricing</h3><p>Premium quality at prices that make sense for Indian businesses.</p></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="sec-head">
+      <p class="eyebrow">— FAQ</p>
+      <h2>Frequently Asked <span class="gold-text">Questions</span></h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">How long does it take to build a website? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-a">Depending on the package, delivery ranges from 3–5 days for a Basic site to 30+ days for a Custom Web App. We always deliver on time.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Do you provide hosting and domain? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-a">We can guide you to set up hosting and domain, or manage it for you at an additional cost. We work with platforms like Hostinger, GoDaddy, and Firebase Hosting.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Can I update the website myself after delivery? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-a">Yes! Premium and higher plans include an admin panel so you can update content, images, and products without any coding knowledge.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What payment methods do you accept? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-a">We accept UPI, bank transfer, and all major payment methods. A 50% advance is required to start the project, with the remaining 50% on delivery.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Do you offer revisions? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-a">Yes, we offer up to 3 free revisions on every project. We work closely with you to make sure the final result exceeds your expectations.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Is my website mobile-friendly? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-a">Absolutely. Every website we build is fully responsive and tested across all screen sizes — mobile, tablet, and desktop.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-wrap">
+      <div class="contact-left">
+        <p class="eyebrow">— Get In Touch</p>
+        <h2>Let's Build Something <span class="gold-text">Great Together</span></h2>
+        <p class="sub">Tell us about your project and we'll get back to you within 24 hours.</p>
+        <div class="cinfo">
+          <div class="ci"><i class="fa-solid fa-envelope"></i> ogwebdesigner@gmail.com</div>
+          <div class="ci"><i class="fa-brands fa-whatsapp"></i> +91 98765 43210</div>
+          <div class="ci"><i class="fa-solid fa-location-dot"></i> India — Remote Worldwide</div>
+        </div>
+      </div>
+      <div class="contact-right">
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="fg"><label>Your Name</label><input type="text" placeholder="John Doe" required/></div>
+            <div class="fg"><label>Your Email</label><input type="email" placeholder="john@email.com" required/></div>
+          </div>
+          <div class="fg">
+            <label>Select a Plan</label>
+            <select required>
+              <option value="" disabled selected>Choose a package...</option>
+              <option>Basic Website — ₹4,999</option>
+              <option>Business Website — ₹9,999</option>
+              <option>Premium Website — ₹19,999</option>
+              <option>E-Commerce Website — ₹34,999</option>
+              <option>Custom Web App — ₹59,999+</option>
+            </select>
+          </div>
+          <div class="fg"><label>Project Details</label><textarea placeholder="Tell us about your project..." rows="4" required></textarea></div>
+          <button type="submit" class="btn-gold full">Send Message <i class="fa-solid fa-paper-plane"></i></button>
+          <p id="form-msg" class="form-msg"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-wrap">
+      <div class="footer-brand">
+        <div class="logo">OG WEB SOLUTIONS<span>.</span></div>
+        <p>Premium web design & development for businesses that want to grow.</p>
+        <div class="socials">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <a href="#services">Services</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-links">
+        <h4>Packages</h4>
+        <a href="#pricing">Basic — ₹4,999</a>
+        <a href="#pricing">Business — ₹9,999</a>
+        <a href="#pricing">Premium — ₹19,999</a>
+        <a href="#pricing">E-Commerce — ₹34,999</a>
+        <a href="#pricing">Custom App — ₹59,999+</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 OG WEB SOLUTIONS. All rights reserved.</p>
+      <p>Made with <i class="fa-solid fa-heart" style="color:#d4af37"></i> in India &nbsp;|&nbsp; <a href="login.html" style="color:var(--muted);text-decoration:none;font-size:0.78rem;transition:color 0.2s" onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color=''"><i class="fa-solid fa-lock"></i> Admin</a></p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Apply admin saved content
+    function applyAdminContent() {
+      const DEF = {
+        hero: { line1:'We Build Websites', line2:'That Convert.', sub:'Premium web design & development for businesses that want to stand out, grow faster, and dominate online.', badge:'Available for Projects', btn1:'See Our Plans', btn2:'View Work', trust:'Trusted by 30+ clients across India' },
+        services: [
+          {icon:'fa-laptop-code',title:'Web Design',desc:'Pixel-perfect, responsive designs tailored to your brand identity.'},
+          {icon:'fa-mobile-screen',title:'UI/UX Design',desc:'Intuitive experiences that keep visitors engaged and converting.'},
+          {icon:'fa-rocket',title:'Landing Pages',desc:'High-converting pages built to grow your business fast.'},
+          {icon:'fa-store',title:'E-Commerce',desc:'Beautiful online stores with seamless checkout experience.'},
+          {icon:'fa-magnifying-glass-chart',title:'SEO Optimization',desc:'Get found on Google with advanced SEO built into every project.'},
+          {icon:'fa-database',title:'Web Apps',desc:'Custom apps with Firebase, admin panels, and user portals.'}
+        ],
+        pricing: [
+          {icon:'fa-seedling',name:'Basic Website',price:'₹4,999',delivery:'3–5 days',features:'1–5 Pages\nMobile Responsive\nContact Form\nBasic SEO\n1 Month Support',popular:false},
+          {icon:'fa-briefcase',name:'Business Website',price:'₹9,999',delivery:'7 days',features:'5–10 Pages\nMobile Responsive\nContact + Enquiry Form\nGoogle Maps Integration\nSocial Media Links\nBasic SEO\n3 Months Support',popular:false},
+          {icon:'fa-crown',name:'Premium Website',price:'₹19,999',delivery:'15 days',features:'10–15 Pages\nMobile Responsive\nAdmin Panel\nFirebase Database\nPayment Gateway\nAdvanced SEO\n6 Months Support',popular:true},
+          {icon:'fa-cart-shopping',name:'E-Commerce',price:'₹34,999',delivery:'20 days',features:'Full Online Store\nProduct Management\nPayment Gateway\nOrder Tracking\nAdmin Dashboard\n1 Year Support',popular:false},
+          {icon:'fa-wand-magic-sparkles',name:'Custom Web App',price:'₹59,999+',delivery:'30+ days',features:'Fully Custom Build\nMobile App Ready\nFirebase / Database\nStaff Management\nCustomer Portal\n1 Year Support',popular:false}
+        ],
+        portfolio: [
+          {icon:'fa-briefcase',title:'Business Portfolio',desc:'Corporate website with animations and CMS integration.',tag:'Branding'},
+          {icon:'fa-cart-shopping',title:'Fashion Store',desc:'E-commerce platform with custom product filters and checkout.',tag:'E-Commerce'},
+          {icon:'fa-utensils',title:'Restaurant Site',desc:'Elegant restaurant website with online reservation system.',tag:'Hospitality'},
+          {icon:'fa-dumbbell',title:'Fitness App Landing',desc:'Bold landing page for a fitness app with video background.',tag:'Landing Page'},
+          {icon:'fa-graduation-cap',title:'EdTech Platform',desc:'Online learning platform with course listings and dashboards.',tag:'Education'},
+          {icon:'fa-camera',title:'Photography Portfolio',desc:'Minimal gallery site with lightbox and contact form.',tag:'Portfolio'}
+        ],
+        testimonials: [
+          {name:'Rahul Sharma',role:'Restaurant Owner, Delhi',text:'OG Web Designer built our business website in just 5 days. The design is stunning and we\'ve already seen a 40% increase in enquiries!',featured:false},
+          {name:'Priya Mehta',role:'Fashion Store Owner, Mumbai',text:'Absolutely premium quality. They delivered our e-commerce store on time with all features working perfectly. Best investment for our brand.',featured:true},
+          {name:'Arjun Patel',role:'Fitness Studio Owner, Bangalore',text:'The custom web app they built for our gym has transformed how we manage members. The admin panel is super easy to use. Highly recommend!',featured:false}
+        ],
+        contact: {email:'ogwebdesigner@gmail.com',wa:'+91 98765 43210',loc:'India — Remote Worldwide',head:'Let\'s Build Something Great Together',sub:'Tell us about your project and we\'ll get back to you within 24 hours.'},
+        footer: {tag:'Premium web design & development for businesses that want to grow.',copy:'© 2025 OG WEB SOLUTIONS. All rights reserved.',ig:'#',tw:'#',li:'#',wa:'https://wa.me/919876543210'},
+        settings: {title:'OG WEB SOLUTIONS — Premium Web Solutions',logo:'OG WEB SOLUTIONS',wanum:'919876543210'}
+      };
+      function get(key) { try { return JSON.parse(localStorage.getItem('ogSite_'+key)) || DEF[key]; } catch(e) { return DEF[key]; } }
+
+      // HERO
+      const h = get('hero');
+      const h1 = document.querySelector('.hero-text h1');
+      if(h1) h1.innerHTML = h.line1 + '<br/><span class="gold-text">' + h.line2 + '</span>';
+      const sub = document.querySelector('.hero-text .sub');
+      if(sub) sub.textContent = h.sub;
+      const badge = document.querySelector('.badge');
+      if(badge) badge.innerHTML = '<span class="pulse"></span> ' + h.badge;
+      const btn1 = document.querySelector('.hero-btns .btn-gold');
+      if(btn1) btn1.innerHTML = h.btn1 + ' <i class="fa-solid fa-arrow-right"></i>';
+      const btn2 = document.querySelector('.hero-btns .btn-outline');
+      if(btn2) btn2.textContent = h.btn2;
+      const trust = document.querySelector('.trust-row p');
+      if(trust) trust.innerHTML = h.trust;
+
+      // SERVICES
+      const svcGrid = document.querySelector('.svc-grid');
+      if(svcGrid) {
+        const svcs = get('services');
+        svcGrid.innerHTML = svcs.map(s => `<div class="svc-card"><div class="svc-icon"><i class="fa-solid ${s.icon}"></i></div><h3>${s.title}</h3><p>${s.desc}</p></div>`).join('');
+      }
+
+      // PRICING
+      const pricingGrid = document.querySelector('.pricing-grid');
+      if(pricingGrid) {
+        const plans = get('pricing');
+        pricingGrid.innerHTML = plans.map(p => `
+          <div class="plan-card ${p.popular ? 'popular' : ''}">
+            ${p.popular ? '<div class="pop-badge">⭐ Most Popular</div>' : ''}
+            <div class="plan-icon"><i class="fa-solid ${p.icon}"></i></div>
+            <h3 class="plan-name">${p.name}</h3>
+            <div class="plan-price">${p.price}</div>
+            <p class="plan-delivery"><i class="fa-regular fa-clock"></i> Delivery: ${p.delivery}</p>
+            <ul class="plan-feats">${p.features.split('\n').map(f => `<li><i class="fa-solid fa-check"></i> ${f}</li>`).join('')}</ul>
+            <a href="#contact" class="plan-btn ${p.popular ? 'pop-btn' : ''}">${p.popular ? 'Get Started' : p.name === 'Custom Web App' ? 'Let\'s Talk <i class="fa-solid fa-arrow-right"></i>' : 'Get Started'}</a>
+          </div>`).join('');
+      }
+
+      // PORTFOLIO
+      const portGrid = document.querySelector('.port-grid');
+      if(portGrid) {
+        const goldColors = ['#c9a84c','#d4af37','#b8960c','#f0c040','#c9a84c','#d4af37'];
+        const ports = get('portfolio');
+        portGrid.innerHTML = ports.map((p,i) => `
+          <div class="p-card" style="--c:${goldColors[i % goldColors.length]}">
+            <div class="p-icon"><i class="fa-solid ${p.icon}"></i></div>
+            <h3>${p.title}</h3><p>${p.desc}</p>
+            <span class="pill">${p.tag}</span>
+          </div>`).join('');
+      }
+
+      // TESTIMONIALS
+      const testiGrid = document.querySelector('.testi-grid');
+      if(testiGrid) {
+        const testis = get('testimonials');
+        testiGrid.innerHTML = testis.map(t => `
+          <div class="testi-card ${t.featured ? 'featured-testi' : ''}">
+            <div class="testi-stars">★★★★★</div>
+            <p>"${t.text}"</p>
+            <div class="testi-author">
+              <div class="testi-avatar">${t.name.charAt(0)}</div>
+              <div><strong>${t.name}</strong><span>${t.role}</span></div>
+            </div>
+          </div>`).join('');
+      }
+
+      // CONTACT
+      const c = get('contact');
+      const cEmail = document.querySelector('.cinfo .ci:nth-child(1)');
+      if(cEmail) cEmail.innerHTML = '<i class="fa-solid fa-envelope"></i> ' + c.email;
+      const cWa = document.querySelector('.cinfo .ci:nth-child(2)');
+      if(cWa) cWa.innerHTML = '<i class="fa-brands fa-whatsapp"></i> ' + c.wa;
+      const cLoc = document.querySelector('.cinfo .ci:nth-child(3)');
+      if(cLoc) cLoc.innerHTML = '<i class="fa-solid fa-location-dot"></i> ' + c.loc;
+      const cHead = document.querySelector('.contact-left h2');
+      if(cHead) cHead.innerHTML = c.head.replace(/(Great Together|.*)$/, '<span class="gold-text">$1</span>');
+      const cSub = document.querySelector('.contact-left .sub');
+      if(cSub) cSub.textContent = c.sub;
+
+      // FOOTER
+      const f = get('footer');
+      const fTag = document.querySelector('.footer-brand p');
+      if(fTag) fTag.textContent = f.tag;
+      const fCopy = document.querySelector('.footer-bottom p:first-child');
+      if(fCopy) fCopy.textContent = f.copy;
+      const fLinks = document.querySelectorAll('.socials a');
+      const fUrls = [f.ig, f.tw, f.li, f.wa];
+      fLinks.forEach((a,i) => { if(fUrls[i]) a.href = fUrls[i]; });
+
+      // SETTINGS
+      const s = get('settings');
+      document.title = s.title;
+      document.querySelectorAll('.logo').forEach(el => el.innerHTML = s.logo + '<span>.</span>');
+      const waFloat = document.querySelector('.whatsapp-float');
+      if(waFloat) waFloat.href = 'https://wa.me/' + s.wanum;
+    }
+
+    applyAdminContent();
+  </script>
+  <script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+    const dots = Array.from({length: 60}, () => ({
+      x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+      r: Math.random() * 1.5 + 0.3,
+      dx: (Math.random() - 0.5) * 0.3, dy: (Math.random() - 0.5) * 0.3
+    }));
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      dots.forEach(d => {
+        d.x += d.dx; d.y += d.dy;
+        if (d.x < 0 || d.x > canvas.width) d.dx *= -1;
+        if (d.y < 0 || d.y > canvas.height) d.dy *= -1;
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(212,175,55,0.35)';
+        ctx.fill();
+      });
+      dots.forEach((a, i) => dots.slice(i+1).forEach(b => {
+        const dist = Math.hypot(a.x - b.x, a.y - b.y);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(212,175,55,${0.08 * (1 - dist/120)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }));
+      requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+  </script>
+</body>
+</html>
